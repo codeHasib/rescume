@@ -1,5 +1,6 @@
 "use client";
 
+import GoogleAuthBtn from "@/components/GoogleAuthBtn";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
 
@@ -8,8 +9,9 @@ const Check = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const userData = Object.fromEntries(formData.entries());
+    console.log(userData);
     const { data, error } = await authClient.signUp.email({
-      name: userData.name,
+      name: userData.username,
       email: userData.email,
       password: userData.password,
       image: userData.imgURL,
@@ -19,6 +21,7 @@ const Check = () => {
       toast.success("yes");
     } else {
       toast.error("NNNOOOOOOOOOOOOO");
+      console.log(error.message);
     }
   }
 
@@ -31,6 +34,7 @@ const Check = () => {
         <input type="text" name="imgURL" />
         <button type="submit">Add</button>
       </form>
+      <GoogleAuthBtn></GoogleAuthBtn>
     </div>
   );
 };

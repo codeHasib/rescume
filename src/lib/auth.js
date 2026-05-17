@@ -6,16 +6,17 @@ const client = new MongoClient(process.env.DB_URI);
 const db = client.db("rescume");
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL,
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    },
+  },
+  emailAndPassword: {
+    enabled: true,
+  },
   database: mongodbAdapter(db, {
-    emailAndPassword: {
-      enabled: true,
-    },
-    socialProviders: {
-      google: {
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      },
-    },
     client,
   }),
 });
