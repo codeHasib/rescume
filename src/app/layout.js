@@ -3,6 +3,7 @@ import Nav from "@/components/Nav";
 import "./globals.css";
 import { Quicksand, Inter } from "next/font/google";
 import { ToastContainer } from "react-toastify";
+import Footer from "@/components/Footer";
 
 const headingFont = Quicksand({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
           <Nav />
           <main className="flex-grow">{children}</main>
         </ThemeProvider>
+        <Footer></Footer>
         <ToastContainer></ToastContainer>
       </body>
     </html>
