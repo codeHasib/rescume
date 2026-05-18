@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function AllPetsClient({
   initialPets = [],
@@ -114,7 +115,7 @@ export default function AllPetsClient({
           data.message?.includes("exp") ||
           data.error?.includes("exp")
         ) {
-          alert("Your session has expired. Please sign in again.");
+          toast.error("Your session has expired. Please sign in again.");
           setIsModalOpen(false);
           router.push("/auth/signin");
           return;
@@ -128,7 +129,7 @@ export default function AllPetsClient({
       setMessage("");
       router.push("/dashboard/requests");
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message);
     } finally {
       setIsSubmitting(false);
     }

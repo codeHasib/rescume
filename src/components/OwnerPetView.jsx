@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function OwnerPetView({ pet, initialRequests, authToken }) {
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function OwnerPetView({ pet, initialRequests, authToken }) {
       );
       router.refresh();
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message);
     } finally {
       setActionLoading(null);
     }

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import OwnerReqsModal from "./OwnerReqsModal";
 import { DeleteModal } from "./DeleteModal";
+import { toast } from "react-toastify";
 
 const BASE_API_URL = "https://rescume-backend.vercel.app";
 
@@ -77,7 +78,7 @@ export default function ListingsClient({
       if (!res.ok) throw new Error("Failed to delete pet listing.");
       setPets((prev) => prev.filter((p) => p._id !== petId));
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message);
     }
   };
 

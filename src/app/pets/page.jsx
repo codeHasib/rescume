@@ -15,13 +15,13 @@ export default async function AllPetsPage() {
       .getSession({
         headers: requestHeaders,
       })
-      .catch(() => null); 
+      .catch(() => null);
 
     const tokenContext = await auth.api
       .getToken({
         headers: requestHeaders,
       })
-      .catch(() => null); // Catch rejection safely
+      .catch(() => null);
 
     user = sessionContext?.user || null;
     token = tokenContext?.token || "";

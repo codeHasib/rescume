@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { toast } from "react-toastify";
 const BASE_API_URL = "https://rescume-backend.vercel.app";
 
 export default function RequestsDashboard({ initialRequests, authToken }) {
@@ -38,7 +39,7 @@ export default function RequestsDashboard({ initialRequests, authToken }) {
 
       setRequests((prev) => prev.filter((req) => req._id !== requestId));
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message);
     } finally {
       setIsDeletingId(null);
     }

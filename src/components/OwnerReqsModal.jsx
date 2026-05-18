@@ -2,6 +2,7 @@
 
 import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const BASE_API_URL = "https://rescume-backend.vercel.app";
 export default function OwnerReqsModal({
@@ -57,7 +58,7 @@ export default function OwnerReqsModal({
       }
       router.push("/dashboard/listings");
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message);
     } finally {
       setIsProcessing(false);
     }

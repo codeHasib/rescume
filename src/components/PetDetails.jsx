@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 const BASE_API_URL = "https://rescume-backend.vercel.app";
 
 export default function PetDetails({
@@ -78,7 +79,7 @@ export default function PetDetails({
         router.push("/dashboard/requests");
       }, 2000);
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -109,7 +110,7 @@ export default function PetDetails({
               pet.image ||
               "https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=600"
             }
-            alt={pet.petName}
+            alt={pet.petName || "Pet Picture"}
             fill
             priority
             className="object-cover"
