@@ -59,8 +59,7 @@ export default async function AllPetsPage() {
           All Available Matches
         </h1>
         <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 font-medium max-w-md">
-          Filter through active profiles across connected local nodes to
-          complete structural adoptions.
+          Filter out your favorite companion.
         </p>
       </div>
 

@@ -7,11 +7,8 @@ const BASE_API_URL = "https://rescume-backend.vercel.app";
 export const dynamic = "force-dynamic";
 
 export default async function PetAdoptionPage({ params }) {
-  // 1. Properly await params for Next.js 15+ compatibility
   const { id } = await params;
   const requestHeaders = await headers();
-
-  // 2. Safe Auth check
   const sessionContext = await auth.api
     .getSession({ headers: requestHeaders })
     .catch(() => null);

@@ -159,8 +159,7 @@ export default function AllPetsClient({
             Find Your Companion
           </h1>
           <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 font-semibold mt-1 tracking-wide">
-            Browse through verified animal records currently live on production
-            pipelines.
+            Browse through verified animal records.
           </p>
         </div>
 
