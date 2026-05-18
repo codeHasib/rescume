@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "wpcdn.web.wsu.edu",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
     ],
   },
   /* config options here */

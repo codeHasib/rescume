@@ -39,8 +39,8 @@ export default function Nav() {
   ];
 
   const privateItems = [
-    { label: "My Requests", path: "/requests" },
-    { label: "Add Pet", path: "/add-pet" },
+    { label: "My Requests", path: "/dashboard/requests" },
+    { label: "Add Pet", path: "/dashboard/add-pet" },
   ];
 
   const menuItems = isLoggedIn ? [...baseItems, ...privateItems] : baseItems;
