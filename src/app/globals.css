@@ -28,7 +28,6 @@
   }
 }
 
-/* Custom smooth glassmorphism utility */
 .glass-nav {
   background: rgba(253, 251, 247, 0.75);
   backdrop-filter: blur(12px);
@@ -36,4 +35,8 @@
 .dark .glass-nav {
   background: rgba(15, 23, 42, 0.75);
   backdrop-filter: blur(12px);
+}
+
+.bgImgHero {
+  background-image: url("https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=2000&auto=format&fit=crop");
 }

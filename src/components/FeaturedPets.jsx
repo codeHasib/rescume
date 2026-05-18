@@ -6,7 +6,7 @@ export default async function FeaturedPets() {
 
   try {
     const res = await fetch("https://rescume-backend.vercel.app/pets", {
-      next: { revalidate: 60 }, 
+      next: { revalidate: 60 },
     });
 
     if (res.ok) {
@@ -22,23 +22,29 @@ export default async function FeaturedPets() {
   const featuredListings = pets.slice(0, 6);
 
   return (
-    <section id="gallery-anchor" className="w-full max-w-6xl mx-auto px-4 py-16 sm:py-24 border-t border-neutral-100 dark:border-neutral-900 scroll-mt-6">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-        <div>
-          <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">
-            Live Database
+    <section
+      id="gallery-anchor"
+      className="w-full max-w-6xl mx-auto px-4 py-20 sm:py-28 border-t border-neutral-200/60 dark:border-neutral-900/50 scroll-mt-6"
+    >
+      <div className="flex flex-col gap-2 mb-12 max-w-xl">
+        <div className="flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
+            Live Companions
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-neutral-900 dark:text-neutral-50 mt-1">
-            Featured Companions
-          </h2>
-          <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1 max-w-md font-medium">
-            Browse through active listings matching local node registration requirements.
-          </p>
         </div>
+
+        <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-neutral-950 dark:text-neutral-50">
+          Featured Companions
+        </h2>
+
+        <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 font-semibold tracking-wide leading-relaxed">
+          Get your best companions
+        </p>
       </div>
 
       {errorMsg ? (
-        <div className="w-full p-4 bg-rose-500/5 border border-rose-500/10 text-rose-500 text-xs font-semibold rounded-xl text-center">
+        <div className="w-full p-6 bg-red-500/5 border border-red-500/10 text-red-600 dark:text-red-400 text-xs font-bold rounded-2xl text-center tracking-wide">
           {errorMsg}
         </div>
       ) : (

@@ -21,6 +21,8 @@ export default function AllPetsClient({
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const BASE_API_URL = "https://rescume-backend.vercel.app";
+
   const speciesOptions = useMemo(() => {
     const speciesSet = new Set(
       initialPets.map((pet) => pet.species).filter(Boolean),
@@ -37,9 +39,7 @@ export default function AllPetsClient({
         if (selectedSpecies.length > 0)
           params.append("species", selectedSpecies.join(","));
 
-        const res = await fetch(
-          `http://localhost:5000/pets?${params.toString()}`,
-        );
+        const res = await fetch(`${BASE_API_URL}/pets?${params.toString()}`);
         if (!res.ok) throw new Error("Database interface mapping failure");
         const data = await res.json();
         setPets(data);
@@ -78,63 +78,15 @@ export default function AllPetsClient({
     setIsModalOpen(true);
   };
 
-  // const handleModalSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (!pickupDate || !selectedPetForModal || !authToken) return;
-
-  //   setIsSubmitting(true);
-  //   try {
-  //     const res = await fetch("http://localhost:5000/requests", {
-  //       method: "POST",
-  //       headers: {
-  //         Authorization: `Bearer ${authToken}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         petId: selectedPetForModal._id,
-  //         petName: selectedPetForModal.petName,
-  //         petImage: selectedPetForModal.image,
-  //         ownerEmail: selectedPetForModal.ownerEmail,
-  //         applicantName: user?.name,
-  //         applicantEmail: user?.email,
-  //         pickupDate,
-  //         requestDate: new Date().toISOString(),
-  //         message,
-  //         status: "pending",
-  //       }),
-  //     });
-
-  //     if (!res.ok) {
-  //       const errData = await res.json();
-  //       throw new Error(errData.message || "Failed to submit request");
-  //     }
-
-  //     setIsModalOpen(false);
-  //     setSelectedPetForModal(null);
-  //     setPickupDate("");
-  //     setMessage("");
-  //     router.push("/dashboard/applications");
-  //   } catch (err) {
-  //     alert(err.message);
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
-
   const handleModalSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Values Check:", {
-      pickupDate,
-      selectedPetForModal,
-      authToken,
-    });
     if (!pickupDate || !selectedPetForModal || !authToken) {
       return;
     }
 
     setIsSubmitting(true);
     try {
-      const res = await fetch("http://localhost:5000/requests", {
+      const res = await fetch(`${BASE_API_URL}/requests`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${authToken}`,
@@ -163,7 +115,6 @@ export default function AllPetsClient({
           data.error?.includes("exp")
         ) {
           alert("Your session has expired. Please sign in again.");
-
           setIsModalOpen(false);
           router.push("/auth/signin");
           return;
@@ -206,36 +157,37 @@ export default function AllPetsClient({
           <h1 className="text-3xl font-black tracking-tight uppercase">
             Find Your Companion
           </h1>
-          <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 font-bold mt-1">
-            Browse through active records synchronized directly onto central
-            cluster engines.
+          <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 font-semibold mt-1 tracking-wide">
+            Browse through verified animal records currently live on production
+            pipelines.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start flex-1 w-full">
+          {/* Filters Sidebar */}
           <div className="lg:col-span-3 flex flex-col gap-6 w-full">
-            <div className="p-5 bg-neutral-50 dark:bg-neutral-900/40 border border-neutral-200 dark:border-neutral-800 rounded-3xl flex flex-col gap-2">
-              <label className="text-[10px] font-black uppercase tracking-wider text-neutral-400">
-                Search Profile Name ($regex)
+            <div className="p-5 bg-neutral-50 dark:bg-neutral-900/40 border border-neutral-200/60 dark:border-neutral-900 rounded-3xl flex flex-col gap-2">
+              <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
+                Search Name
               </label>
               <input
                 type="text"
                 placeholder="Type pet identity name..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-3.5 py-2 text-xs bg-white dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-800 rounded-xl font-medium focus:outline-none focus:border-neutral-900 dark:focus:border-neutral-100 transition-colors"
+                className="w-full px-3.5 py-2 text-xs bg-white dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-800 rounded-xl font-semibold tracking-wide focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-700 transition-colors duration-200"
               />
             </div>
 
-            <div className="p-5 bg-neutral-50 dark:bg-neutral-900/40 border border-neutral-200 dark:border-neutral-800 rounded-3xl flex flex-col gap-3">
+            <div className="p-5 bg-neutral-50 dark:bg-neutral-900/40 border border-neutral-200/60 dark:border-neutral-900 rounded-3xl flex flex-col gap-3">
               <div className="flex items-center justify-between">
-                <label className="text-[10px] font-black uppercase tracking-wider text-neutral-400">
-                  Filter by Species ($in)
+                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
+                  Filter by Species
                 </label>
                 {selectedSpecies.length > 0 && (
                   <button
                     onClick={() => setSelectedSpecies([])}
-                    className="text-[10px] font-bold text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 transition-colors underline underline-offset-2"
+                    className="text-[10px] font-black text-neutral-400 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-200 underline underline-offset-4 uppercase tracking-wider"
                   >
                     Reset
                   </button>
@@ -243,8 +195,8 @@ export default function AllPetsClient({
               </div>
 
               {speciesOptions.length === 0 ? (
-                <p className="text-[11px] text-neutral-400 italic">
-                  No available parameters fields returned.
+                <p className="text-[11px] text-neutral-400 dark:text-neutral-500 font-semibold italic tracking-wide">
+                  No available system parameters returned.
                 </p>
               ) : (
                 <div className="flex flex-col gap-2.5">
@@ -253,15 +205,15 @@ export default function AllPetsClient({
                     return (
                       <label
                         key={species}
-                        className="flex items-center gap-3 group cursor-pointer select-none text-xs font-semibold text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+                        className="flex items-center gap-3 group cursor-pointer select-none text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-neutral-100 transition-colors duration-200"
                       >
                         <input
                           type="checkbox"
                           checked={isChecked}
                           onChange={() => handleSpeciesChange(species)}
-                          className="w-4 h-4 rounded-md border-neutral-300 dark:border-neutral-700 text-neutral-950 focus:ring-0 cursor-pointer accent-neutral-950 dark:accent-white"
+                          className="w-4 h-4 rounded-md border-neutral-300 dark:border-neutral-700 text-emerald-500 focus:ring-0 cursor-pointer accent-neutral-950 dark:accent-white"
                         />
-                        <span>{species}</span>
+                        <span className="tracking-wide">{species}</span>
                       </label>
                     );
                   })}
@@ -270,24 +222,25 @@ export default function AllPetsClient({
             </div>
           </div>
 
+          {/* Grid Area */}
           <div className="lg:col-span-9 w-full min-h-full flex flex-col">
             {loading ? (
-              <div className="w-full py-24 text-center font-bold text-xs text-neutral-400 uppercase tracking-widest animate-pulse flex-1 flex items-center justify-center">
-                Querying database indexes...
+              <div className="w-full py-24 text-center font-black text-xs text-neutral-400 dark:text-neutral-500 uppercase tracking-widest animate-pulse flex-1 flex items-center justify-center">
+                Synchronizing remote cluster lists...
               </div>
             ) : pets.length === 0 ? (
-              <div className="w-full py-24 text-center border border-dashed border-neutral-200 dark:border-neutral-800 rounded-3xl flex flex-col items-center justify-center gap-3 flex-1">
-                <span className="text-2xl select-none">🔍</span>
-                <h3 className="font-black text-base text-neutral-900 dark:text-neutral-50">
+              <div className="w-full py-24 text-center border border-dashed border-neutral-200 dark:border-neutral-800 rounded-3xl flex flex-col items-center justify-center gap-2 flex-1">
+                <span className="text-xl select-none mb-1">📋</span>
+                <h3 className="font-black text-sm uppercase tracking-wider text-neutral-900 dark:text-neutral-50">
                   No Companions Found
                 </h3>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 max-w-xs mx-auto leading-relaxed font-medium">
-                  MongoDB query returned 0 structural logs. Try adjusting
-                  criteria variables.
+                <p className="text-xs text-neutral-400 dark:text-neutral-500 max-w-xs mx-auto leading-relaxed font-semibold tracking-wide">
+                  Production endpoint returned empty structural logs. Try
+                  adjusting filters.
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 w-full items-start">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 w-full items-start">
                 {pets.map((pet) => {
                   const isAdopted = pet.status?.toLowerCase() === "adopted";
                   const isOwner = user && pet.ownerEmail === user.email;
@@ -295,9 +248,10 @@ export default function AllPetsClient({
                   return (
                     <div
                       key={pet._id}
-                      className="group bg-white dark:bg-neutral-900/20 border border-neutral-200/70 dark:border-neutral-800/60 rounded-2xl overflow-hidden flex flex-col transition-all hover:border-neutral-300 dark:hover:border-neutral-700 shadow-xs cursor-pointer h-full"
+                      className="group bg-neutral-50/50 dark:bg-neutral-900/40 border border-neutral-200/60 dark:border-neutral-900 rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:border-neutral-300 dark:hover:border-neutral-800 h-full"
                     >
-                      <div className="w-full aspect-[4/3] bg-neutral-50 dark:bg-neutral-950 relative overflow-hidden shrink-0">
+                      {/* Image Frame */}
+                      <div className="w-full aspect-[4/3] bg-neutral-100 dark:bg-neutral-950 relative overflow-hidden shrink-0 border-b border-neutral-200/50 dark:border-neutral-900">
                         <Image
                           src={
                             pet.image ||
@@ -306,48 +260,51 @@ export default function AllPetsClient({
                           alt={pet.petName || "Pet"}
                           fill
                           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="object-cover transition-transform duration-500 group-hover:scale-102"
                         />
                         {isAdopted && (
                           <div className="absolute inset-0 bg-neutral-950/40 backdrop-blur-xs flex items-center justify-center">
-                            <span className="bg-neutral-950/80 dark:bg-white/90 text-white dark:text-neutral-950 font-black text-[9px] uppercase tracking-widest px-2.5 py-1 rounded-md shadow-xs">
+                            <span className="bg-neutral-950/80 dark:bg-white/90 text-white dark:text-neutral-950 font-black text-[9px] uppercase tracking-widest px-2.5 py-1 rounded-md">
                               Adopted
                             </span>
                           </div>
                         )}
                       </div>
 
-                      <div className="p-3.5 flex flex-col flex-1 gap-1">
+                      {/* Content Area */}
+                      <div className="p-4 flex flex-col flex-1 gap-1">
                         <div className="flex items-start justify-between gap-2">
-                          <h2 className="font-black text-sm text-neutral-900 dark:text-neutral-50 truncate tracking-tight">
+                          <h2 className="font-black text-sm text-neutral-950 dark:text-neutral-50 truncate tracking-tight">
                             {pet.petName}
                           </h2>
-                          <span className="text-[10px] font-bold text-emerald-500 shrink-0">
+                          <span className="text-[11px] font-black text-emerald-500 tracking-wide shrink-0">
                             {!pet.adoptionFee || Number(pet.adoptionFee) === 0
-                              ? "Free"
+                              ? "FREE"
                               : `$${pet.adoptionFee}`}
                           </span>
                         </div>
-                        <p className="text-[11px] font-bold text-neutral-400 uppercase tracking-wide truncate">
-                          {pet.breed || "Mixed Breed"} &bull;{" "}
+
+                        <p className="text-[10px] font-black text-neutral-400 dark:text-neutral-500 uppercase tracking-widest truncate">
+                          {pet.breed || "Mixed"} &bull;{" "}
                           {pet.species || "Animal"}
                         </p>
 
-                        <div className="mt-1.5 pt-2 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between text-[10px] text-neutral-400 font-medium mb-3">
+                        <div className="mt-2 pt-2 border-t border-neutral-200/40 dark:border-neutral-800/60 flex items-center justify-between text-[10px] text-neutral-500 dark:text-neutral-400 font-semibold tracking-wide">
                           <span className="truncate max-w-[70%]">
                             {pet.location || "Remote"}
                           </span>
-                          <span className="font-bold text-neutral-500 dark:text-neutral-400 shrink-0">
+                          <span className="shrink-0 font-bold uppercase text-[9px] tracking-wider px-1.5 py-0.5 rounded-md bg-neutral-200/50 dark:bg-neutral-800/60 text-neutral-600 dark:text-neutral-400">
                             {pet.age || "N/A"}
                           </span>
                         </div>
 
-                        <div className="flex justify-center items-center gap-3 flex-col mt-auto">
+                        {/* Dual Actions Stack */}
+                        <div className="grid grid-cols-1 gap-2 mt-4 pt-1">
                           <button
                             type="button"
                             disabled={isAdopted || isOwner}
                             onClick={(e) => handleAdoptAction(e, pet)}
-                            className="p-3 text-center bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 font-black text-[10px] rounded-xl tracking-wider uppercase disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90 transition-all select-none focus:outline-none w-full"
+                            className="w-full py-2.5 text-center bg-emerald-500 dark:bg-emerald-600 text-white font-black text-[10px] rounded-xl tracking-widest uppercase disabled:opacity-30 disabled:hover:bg-emerald-500 dark:disabled:hover:bg-emerald-600 hover:bg-emerald-600 dark:hover:bg-emerald-500 transition-colors duration-200 select-none focus:outline-none"
                           >
                             {isAdopted
                               ? "Adopted"
@@ -355,10 +312,11 @@ export default function AllPetsClient({
                                 ? "Your Listing"
                                 : "Adopt Now"}
                           </button>
+
                           <button
                             type="button"
                             onClick={() => handleViewDetails(pet._id)}
-                            className="p-3 text-center bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 font-black text-[10px] rounded-xl tracking-wider uppercase disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90 transition-all select-none focus:outline-none w-full"
+                            className="w-full py-2.5 text-center bg-transparent border border-neutral-200 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 font-black text-[10px] rounded-xl tracking-widest uppercase hover:bg-neutral-100 dark:hover:bg-neutral-900/60 hover:text-neutral-950 dark:hover:text-white transition-all duration-200 select-none focus:outline-none"
                           >
                             View Details
                           </button>
@@ -373,37 +331,38 @@ export default function AllPetsClient({
         </div>
       </div>
 
+      {/* Modal Dialog */}
       {isModalOpen && selectedPetForModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-950/40 backdrop-blur-xs animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-950/40 backdrop-blur-xs">
           <div
-            className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-6 max-w-md w-full shadow-xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
+            className="bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-900 rounded-3xl p-6 max-w-md w-full shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div>
-              <h3 className="font-black text-lg text-neutral-900 dark:text-neutral-50 tracking-tight">
+              <h3 className="font-black text-base uppercase tracking-wider text-neutral-950 dark:text-neutral-50">
                 Adopt {selectedPetForModal.petName}
               </h3>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                Confirm your parameters to dispatch a request to the platform
-                listings host.
+              <p className="text-xs text-neutral-400 dark:text-neutral-500 font-semibold tracking-wide mt-1">
+                Confirm your configuration credentials to dispatch your
+                structural adoption file.
               </p>
             </div>
 
             <form onSubmit={handleModalSubmit} className="flex flex-col gap-4">
-              <div className="flex flex-col gap-1">
-                <label className="text-[10px] font-bold text-neutral-400 uppercase tracking-wide">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
                   Applicant Profile Email
                 </label>
                 <input
                   type="text"
                   readOnly
                   value={user?.email || ""}
-                  className="w-full px-3.5 py-2 text-xs bg-neutral-50 dark:bg-neutral-950 text-neutral-400 border border-neutral-200 dark:border-neutral-800 rounded-xl font-medium cursor-not-allowed focus:outline-none"
+                  className="w-full px-3.5 py-2 text-xs bg-neutral-50 dark:bg-neutral-900/40 text-neutral-400 dark:text-neutral-500 border border-neutral-200/60 dark:border-neutral-900 rounded-xl font-semibold tracking-wide cursor-not-allowed focus:outline-none"
                 />
               </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="text-[10px] font-bold text-neutral-900 dark:text-neutral-300 uppercase tracking-wide">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-600 dark:text-neutral-400">
                   Preferred Pickup Date *
                 </label>
                 <input
@@ -412,20 +371,20 @@ export default function AllPetsClient({
                   min={getTargetDateMin()}
                   value={pickupDate}
                   onChange={(e) => setPickupDate(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs bg-white dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-800 rounded-xl font-medium focus:outline-none focus:border-neutral-900 dark:focus:border-white transition-colors"
+                  className="w-full px-3.5 py-2 text-xs bg-white dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-800 rounded-xl font-semibold tracking-wide focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-700 transition-colors duration-200"
                 />
               </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="text-[10px] font-bold text-neutral-900 dark:text-neutral-300 uppercase tracking-wide">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-600 dark:text-neutral-400">
                   Message to Owner
                 </label>
                 <textarea
                   rows={4}
-                  placeholder="Introduce your configuration framework context to the host..."
+                  placeholder="Introduce your home environment variables to the host..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs bg-white dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-800 rounded-xl font-medium resize-none focus:outline-none focus:border-neutral-900 dark:focus:border-white transition-colors leading-relaxed"
+                  className="w-full px-3.5 py-2 text-xs bg-white dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-800 rounded-xl font-semibold tracking-wide resize-none focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-700 transition-colors duration-200 leading-relaxed"
                 />
               </div>
 
@@ -437,14 +396,14 @@ export default function AllPetsClient({
                     setIsModalOpen(false);
                     setSelectedPetForModal(null);
                   }}
-                  className="w-1/2 py-2.5 text-center bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-950 dark:hover:bg-neutral-850 border border-neutral-200 dark:border-neutral-800 text-neutral-800 dark:text-neutral-200 font-bold text-xs rounded-xl tracking-wider uppercase transition-colors"
+                  className="w-1/2 py-2.5 text-center bg-transparent hover:bg-neutral-50 dark:hover:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 font-black text-[10px] tracking-widest uppercase rounded-xl transition-colors duration-200"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-1/2 py-2.5 text-center bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 font-black text-xs rounded-xl tracking-wider uppercase disabled:opacity-50 transition-opacity"
+                  className="w-1/2 py-2.5 text-center bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 font-black text-[10px] tracking-widest uppercase rounded-xl disabled:opacity-40 transition-opacity duration-200"
                 >
                   {isSubmitting ? "Processing..." : "Submit"}
                 </button>

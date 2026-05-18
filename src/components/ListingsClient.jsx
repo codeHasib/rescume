@@ -64,9 +64,6 @@ export default function ListingsClient({
   };
 
   const handleDeletePet = async (petId) => {
-    if (!window.confirm("Are you sure you want to delete this pet listing?"))
-      return;
-
     try {
       const res = await fetch(`http://localhost:5000/pets/${petId}`, {
         method: "DELETE",

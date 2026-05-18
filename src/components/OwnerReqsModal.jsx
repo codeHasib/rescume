@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function OwnerReqsModal({
@@ -12,6 +12,7 @@ export default function OwnerReqsModal({
   onStatusUpdate,
 }) {
   const [isProcessing, setIsProcessing] = useState(false);
+  const router = useRouter();
 
   if (!isOpen || !pet) return null;
 
@@ -42,10 +43,18 @@ export default function OwnerReqsModal({
 
       const updatedRequest = await res.json();
 
+      // 1. Update the parent/local state if the callback exists
       if (onStatusUpdate) {
         onStatusUpdate(updatedRequest);
-        window.location.href("/dashboard/listings");
       }
+
+      // 2. Close your modal here (Modify this state variable name if yours is named differently)
+      if (typeof setIsModalOpen === "function") {
+        setIsModalOpen(false);
+      } else if (typeof setOpen === "function") {
+        setOpen(false);
+      }
+      router.push("/dashboard/listings");
     } catch (err) {
       alert(err.message);
     } finally {
