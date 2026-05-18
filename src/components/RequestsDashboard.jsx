@@ -21,11 +21,6 @@ export default function RequestsDashboard({ initialRequests, authToken }) {
   };
 
   const handleCancelRequest = async (requestId) => {
-    if (
-      !window.confirm("Are you sure you want to cancel this adoption request?")
-    )
-      return;
-
     setIsDeletingId(requestId);
     try {
       const res = await fetch(`${BASE_API_URL}/requests/${requestId}`, {
