@@ -27,7 +27,7 @@ export default function OwnerReqsModal({
   const handleUpdateStatus = async (requestId, nextStatus) => {
     setIsProcessing(true);
     try {
-      const res = await fetch(`${BASE_API_URL}/${requestId}`, {
+      const res = await fetch(`${BASE_API_URL}/requests/${requestId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${authToken}`,
@@ -45,12 +45,10 @@ export default function OwnerReqsModal({
 
       const updatedRequest = await res.json();
 
-      // 1. Update the parent/local state if the callback exists
       if (onStatusUpdate) {
         onStatusUpdate(updatedRequest);
       }
 
-      // 2. Close your modal here (Modify this state variable name if yours is named differently)
       if (typeof setIsModalOpen === "function") {
         setIsModalOpen(false);
       } else if (typeof setOpen === "function") {
