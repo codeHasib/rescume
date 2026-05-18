@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import EditPetForm from "@/components/EditPetForm";
 const BASE_API_URL = "https://rescume-backend.vercel.app";
+export const dynamic = "force-dynamic";
 
 export default async function EditPetPage({ params }) {
   const { id } = await params;

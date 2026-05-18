@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import DashboardWelcomeClient from "@/components/DashboardWelcome";
+export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   const sessionContext = await auth.api.getSession({

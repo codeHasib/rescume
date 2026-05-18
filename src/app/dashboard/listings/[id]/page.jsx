@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import OwnerPetView from "@/components/OwnerPetView";
 const BASE_API_URL = "https://rescume-backend.vercel.app";
+export const dynamic = "force-dynamic";
 
 export default async function OwnerPetViewPage({ params }) {
   const { id } = await params;

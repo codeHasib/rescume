@@ -6,6 +6,8 @@ import PetCareTips from "@/components/PetCareTips";
 import SuccessStories from "@/components/SuccessStories";
 import WhyAdoptCats from "@/components/WhyAdopt";
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   return (
     <>

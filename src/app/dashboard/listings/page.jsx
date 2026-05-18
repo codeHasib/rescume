@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import ListingsClient from "@/components/ListingsClient";
 const BASE_API_URL = "https://rescume-backend.vercel.app";
+export const dynamic = "force-dynamic";
 
 export default async function MyListingsPage() {
   const sessionContext = await auth.api.getSession({

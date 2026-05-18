@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import PetForm from "@/components/PetForm";
+export const dynamic = "force-dynamic";
 
 export default async function AddPetPage() {
   const sessionContext = await auth.api.getSession({

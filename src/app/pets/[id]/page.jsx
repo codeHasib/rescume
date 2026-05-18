@@ -2,7 +2,6 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import PetDetails from "@/components/PetDetails";
-
 const BASE_API_URL = "https://rescume-backend.vercel.app";
 export const dynamic = "force-dynamic";
 
