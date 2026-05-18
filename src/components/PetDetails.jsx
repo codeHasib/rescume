@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+const BASE_API_URL = "https://rescume-backend.vercel.app";
 
 export default function PetDetails({
   pet,
@@ -49,7 +50,7 @@ export default function PetDetails({
 
     setIsSubmitting(true);
     try {
-      const res = await fetch("http://localhost:5000/requests", {
+      const res = await fetch(`${BASE_API_URL}/requests`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${authToken}`,

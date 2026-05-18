@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import RequestsDashboard from "@/components/RequestsDashboard";
+const BASE_API_URL = "https://rescume-backend.vercel.app";
 
 export default async function MyRequestsPage() {
   const tokenContext = await auth.api.getToken({
@@ -11,7 +12,7 @@ export default async function MyRequestsPage() {
   let initialRequests = [];
 
   try {
-    const res = await fetch("http://localhost:5000/requests", {
+    const res = await fetch(`${BASE_API_URL}/requests`, {
       cache: "no-store",
       headers: {
         Authorization: `Bearer ${token}`,

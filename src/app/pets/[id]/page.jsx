@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import PetDetails from "@/components/PetDetails";
+const BASE_API_URL = "https://rescume-backend.vercel.app";
 
 export default async function PetAdoptionPage({ params }) {
   const { id } = await params;
@@ -21,7 +22,7 @@ export default async function PetAdoptionPage({ params }) {
   let petData = null;
 
   try {
-    const res = await fetch(`http://localhost:5000/pets/${id}`, {
+    const res = await fetch(`${BASE_API_URL}/pets/${id}`, {
       headers: {
         Authorization: `Bearer ${tokenContext?.token}`,
         "Content-Type": "application/json",

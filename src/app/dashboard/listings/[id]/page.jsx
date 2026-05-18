@@ -2,10 +2,10 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import OwnerPetView from "@/components/OwnerPetView";
+const BASE_API_URL = "https://rescume-backend.vercel.app";
 
 export default async function OwnerPetViewPage({ params }) {
   const { id } = await params;
-  console.log(id);
 
   const sessionContext = await auth.api.getSession({
     headers: await headers(),
@@ -23,7 +23,7 @@ export default async function OwnerPetViewPage({ params }) {
   let requestsData = [];
 
   try {
-    const petRes = await fetch(`http://localhost:5000/pets/${id}`, {
+    const petRes = await fetch(`${BASE_API_URL}/pets/${id}`, {
       headers: {
         Authorization: `Bearer ${tokenContext?.token}`,
         "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export default async function OwnerPetViewPage({ params }) {
     }
 
     if (petData && petData.ownerEmail === sessionContext.user.email) {
-      const reqRes = await fetch("http://localhost:5000/requests", {
+      const reqRes = await fetch(`${BASE_API_URL}/requests`, {
         headers: {
           Authorization: `Bearer ${tokenContext?.token}`,
           "Content-Type": "application/json",

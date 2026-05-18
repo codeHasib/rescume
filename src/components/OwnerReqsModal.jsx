@@ -3,6 +3,7 @@
 import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 
+const BASE_API_URL = "https://rescume-backend.vercel.app";
 export default function OwnerReqsModal({
   isOpen,
   onClose,
@@ -25,7 +26,7 @@ export default function OwnerReqsModal({
   const handleUpdateStatus = async (requestId, nextStatus) => {
     setIsProcessing(true);
     try {
-      const res = await fetch(`http://localhost:5000/requests/${requestId}`, {
+      const res = await fetch(`${BASE_API_URL}/${requestId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${authToken}`,

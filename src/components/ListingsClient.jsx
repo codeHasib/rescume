@@ -6,6 +6,8 @@ import Link from "next/link";
 import OwnerReqsModal from "./OwnerReqsModal";
 import { DeleteModal } from "./DeleteModal";
 
+const BASE_API_URL = "https://rescume-backend.vercel.app";
+
 export default function ListingsClient({
   initialPets,
   allIncomingRequests,
@@ -65,7 +67,7 @@ export default function ListingsClient({
 
   const handleDeletePet = async (petId) => {
     try {
-      const res = await fetch(`http://localhost:5000/pets/${petId}`, {
+      const res = await fetch(`${BASE_API_URL}/pets/${petId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${authToken}`,

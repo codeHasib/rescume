@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import ListingsClient from "@/components/ListingsClient";
+const BASE_API_URL = "https://rescume-backend.vercel.app";
 
 export default async function MyListingsPage() {
   const sessionContext = await auth.api.getSession({
@@ -30,7 +31,7 @@ export default async function MyListingsPage() {
         },
         next: { revalidate: 0 },
       }),
-      fetch("http://localhost:5000/incoming-requests", {
+      fetch(`${BASE_API_URL}/incoming-requests`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

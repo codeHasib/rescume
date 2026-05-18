@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+const BASE_API_URL = "https://rescume-backend.vercel.app";
+
 export default function PetForm({ userEmail, authToken }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -37,7 +39,7 @@ export default function PetForm({ userEmail, authToken }) {
         throw new Error("Session token is missing. Please re-authenticate.");
       }
 
-      const res = await fetch(`http://localhost:5000/pets`, {
+      const res = await fetch(`${BASE_API_URL}/pets`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${authToken}`,

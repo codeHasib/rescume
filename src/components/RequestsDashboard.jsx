@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+const BASE_API_URL = "https://rescume-backend.vercel.app";
 
 export default function RequestsDashboard({ initialRequests, authToken }) {
   const [requests, setRequests] = useState(initialRequests);
@@ -26,7 +27,7 @@ export default function RequestsDashboard({ initialRequests, authToken }) {
 
     setIsDeletingId(requestId);
     try {
-      const res = await fetch(`http://localhost:5000/requests/${requestId}`, {
+      const res = await fetch(`${BASE_API_URL}/requests/${requestId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${authToken}`,

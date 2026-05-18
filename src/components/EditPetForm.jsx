@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+const BASE_API_URL = "https://rescume-backend.vercel.app";
+
 export default function EditPetForm({ pet, authToken }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -33,7 +35,7 @@ export default function EditPetForm({ pet, authToken }) {
     setMessage({ type: "", text: "" });
 
     try {
-      const res = await fetch(`http://localhost:5000/pets/${pet._id}`, {
+      const res = await fetch(`${BASE_API_URL}/${pet._id}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${authToken}`,
