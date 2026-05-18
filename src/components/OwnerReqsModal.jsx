@@ -1,14 +1,23 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function OwnerReqsModal({ isOpen, onClose, requests = [], pet, authToken, onStatusUpdate }) {
+export default function OwnerReqsModal({
+  isOpen,
+  onClose,
+  requests = [],
+  pet,
+  authToken,
+  onStatusUpdate,
+}) {
   const [isProcessing, setIsProcessing] = useState(false);
 
   if (!isOpen || !pet) return null;
 
   const activePetRequests = requests.filter((req) => {
-    const targetPetId = typeof req.petId === "object" ? req.petId?._id : req.petId;
+    const targetPetId =
+      typeof req.petId === "object" ? req.petId?._id : req.petId;
     return targetPetId === pet._id;
   });
 
@@ -35,6 +44,7 @@ export default function OwnerReqsModal({ isOpen, onClose, requests = [], pet, au
 
       if (onStatusUpdate) {
         onStatusUpdate(updatedRequest);
+        window.location.href("/dashboard/listings");
       }
     } catch (err) {
       alert(err.message);
@@ -67,16 +77,22 @@ export default function OwnerReqsModal({ isOpen, onClose, requests = [], pet, au
           {activePetRequests.length === 0 ? (
             <div className="py-12 text-center flex flex-col items-center gap-2">
               <span className="text-2xl">📥</span>
-              <p className="text-xs text-neutral-400 font-bold uppercase tracking-wider">No Requests Found</p>
+              <p className="text-xs text-neutral-400 font-bold uppercase tracking-wider">
+                No Requests Found
+              </p>
             </div>
           ) : (
             <div className="flex flex-col gap-3">
               {activePetRequests.map((req) => {
                 const currentStatus = req.status?.toLowerCase() || "pending";
-                const isDecisionMade = currentStatus === "approved" || currentStatus === "rejected";
+                const isDecisionMade =
+                  currentStatus === "approved" || currentStatus === "rejected";
 
                 return (
-                  <div key={req._id} className="p-4 bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div
+                    key={req._id}
+                    className="p-4 bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  >
                     <div className="flex flex-col gap-1.5 max-w-md">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-black text-sm text-neutral-800 dark:text-neutral-200">
@@ -88,8 +104,12 @@ export default function OwnerReqsModal({ isOpen, onClose, requests = [], pet, au
                       </div>
 
                       <div className="flex flex-col gap-0.5 text-xs">
-                        <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wide">Target Pickup Date</span>
-                        <span className="font-bold text-neutral-700 dark:text-neutral-300">{req.pickupDate}</span>
+                        <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wide">
+                          Target Pickup Date
+                        </span>
+                        <span className="font-bold text-neutral-700 dark:text-neutral-300">
+                          {req.pickupDate}
+                        </span>
                       </div>
 
                       {req.message && (
@@ -114,14 +134,18 @@ export default function OwnerReqsModal({ isOpen, onClose, requests = [], pet, au
                         <div className="flex items-center gap-2 w-full sm:w-auto">
                           <button
                             disabled={isProcessing}
-                            onClick={() => handleUpdateStatus(req._id, "Approved")}
+                            onClick={() =>
+                              handleUpdateStatus(req._id, "Approved")
+                            }
                             className="px-3 py-2 text-center bg-emerald-500 hover:bg-emerald-600 text-white font-black text-[10px] rounded-xl tracking-wider uppercase transition-colors disabled:opacity-40"
                           >
                             Approve
                           </button>
                           <button
                             disabled={isProcessing}
-                            onClick={() => handleUpdateStatus(req._id, "Rejected")}
+                            onClick={() =>
+                              handleUpdateStatus(req._id, "Rejected")
+                            }
                             className="px-3 py-2 text-center bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-750 text-rose-600 dark:text-rose-400 border border-neutral-200 dark:border-neutral-700 font-black text-[10px] rounded-xl tracking-wider uppercase transition-colors disabled:opacity-40"
                           >
                             Reject

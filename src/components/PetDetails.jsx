@@ -18,6 +18,8 @@ export default function PetDetails({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successState, setSuccessState] = useState(false);
 
+  const isAdopted = pet?.status?.toLowerCase() === "adopted";
+
   const targetDateConstraint = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -27,7 +29,7 @@ export default function PetDetails({
   };
 
   const userApplicationNode = existingRequests.find(
-    (req) => req.petId === pet._id && req.applicantEmail === user.email,
+    (req) => req.petId === pet._id && req.applicantEmail === user?.email,
   );
 
   const getStatusStyle = (status) => {
@@ -43,7 +45,7 @@ export default function PetDetails({
 
   const handleSubmitApplication = async (e) => {
     e.preventDefault();
-    if (!pickupDate || isOwner || userApplicationNode) return;
+    if (!pickupDate || isOwner || userApplicationNode || isAdopted) return;
 
     setIsSubmitting(true);
     try {
@@ -57,8 +59,8 @@ export default function PetDetails({
           petId: pet._id,
           petName: pet.petName,
           petImage: pet.image,
-          applicantName: user.name,
-          applicantEmail: user.email,
+          applicantName: user?.name,
+          applicantEmail: user?.email,
           pickupDate,
           requestDate: new Date().toISOString(),
           message,
@@ -72,7 +74,7 @@ export default function PetDetails({
 
       setSuccessState(true);
       setTimeout(() => {
-        router.push("/dashboard/applications");
+        router.push("/dashboard/requests");
       }, 2000);
     } catch (err) {
       alert(err.message);
@@ -111,6 +113,13 @@ export default function PetDetails({
             priority
             className="object-cover"
           />
+          {isAdopted && (
+            <div className="absolute inset-0 bg-neutral-950/40 backdrop-blur-xs flex items-center justify-center select-none">
+              <span className="bg-blue-500 text-white font-black text-xs uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">
+                Adopted
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs bg-neutral-50 dark:bg-neutral-900/40 p-4 border border-neutral-200 dark:border-neutral-800 rounded-2xl">
@@ -162,7 +171,22 @@ export default function PetDetails({
 
       <div className="lg:col-span-5 flex flex-col gap-5 sticky top-6 w-full">
         <div className="p-5 sm:p-6 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl shadow-sm">
-          {isOwner ? (
+          {isAdopted ? (
+            <div className="py-8 text-center flex flex-col items-center gap-4 select-none">
+              <div className="w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-2xl flex items-center justify-center text-xl shadow-xs">
+                🎉
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <h3 className="font-black text-base text-blue-500 uppercase tracking-wide">
+                  Already Adopted
+                </h3>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 max-w-xs mx-auto leading-relaxed font-medium">
+                  This pet has already found a loving family. The application
+                  pipeline is permanently closed for this profile.
+                </p>
+              </div>
+            </div>
+          ) : isOwner ? (
             <div className="py-6 text-center flex flex-col items-center gap-4">
               <div className="w-12 h-12 bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-xl flex items-center justify-center text-lg select-none">
                 👋
@@ -206,7 +230,7 @@ export default function PetDetails({
                 </span>
               </div>
               <Link
-                href="/dashboard/applications"
+                href="/dashboard/requests"
                 className="w-full mt-2 py-2.5 text-center bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-950 dark:hover:bg-neutral-850 border border-neutral-200 dark:border-neutral-800 text-neutral-800 dark:text-neutral-200 font-bold text-xs rounded-xl tracking-wider uppercase transition-colors"
               >
                 View My Applications
@@ -258,7 +282,7 @@ export default function PetDetails({
                   <input
                     type="text"
                     readOnly
-                    value={user.name || "Adopter"}
+                    value={user?.name || "Adopter"}
                     className="w-full px-3.5 py-2 text-xs bg-neutral-50 dark:bg-neutral-950 text-neutral-400 border border-neutral-200 dark:border-neutral-800 rounded-xl font-medium cursor-not-allowed focus:outline-none"
                   />
                 </div>
@@ -269,7 +293,7 @@ export default function PetDetails({
                   <input
                     type="text"
                     readOnly
-                    value={user.email}
+                    value={user?.email || ""}
                     className="w-full px-3.5 py-2 text-xs bg-neutral-50 dark:bg-neutral-950 text-neutral-400 border border-neutral-200 dark:border-neutral-800 rounded-xl font-medium cursor-not-allowed focus:outline-none truncate"
                   />
                 </div>

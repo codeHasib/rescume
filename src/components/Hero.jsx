@@ -12,7 +12,7 @@ export default function Hero() {
       return <p> Loading.... </p>;
     }
     if (data) {
-      redirect("/all-pets");
+      redirect("/pets");
     } else {
       redirect("/auth/signin");
     }

@@ -2,18 +2,26 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import AllPetsClient from "@/components/AllPetsClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function AllPetsPage() {
   const sessionContext = await auth.api.getSession({
     headers: await headers(),
   });
 
-  const isLoggedIn = !!sessionContext?.user;
+  const tokenContext = await auth.api.getToken({
+    headers: await headers(),
+  });
+
+  const user = sessionContext?.user || null;
+  const token = tokenContext?.token || "";
+
   let petsData = [];
   let errorMsg = null;
 
   try {
     const res = await fetch("https://rescume-backend.vercel.app/pets", {
-      next: { revalidate: 15 },
+      cache: "no-store",
     });
     if (res.ok) {
       petsData = await res.json();
@@ -45,7 +53,7 @@ export default async function AllPetsPage() {
           {errorMsg}
         </div>
       ) : (
-        <AllPetsClient initialPets={petsData} isLoggedIn={isLoggedIn} />
+        <AllPetsClient initialPets={petsData} user={user} authToken={token} />
       )}
     </div>
   );

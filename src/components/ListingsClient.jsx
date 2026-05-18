@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import OwnerReqsModal from "./OwnerReqsModal";
+import { DeleteModal } from "./DeleteModal";
 
 export default function ListingsClient({
   initialPets,
@@ -172,22 +173,23 @@ export default function ListingsClient({
                 </button>
                 <Link
                   href={`/dashboard/listings/edit/${pet._id}`}
-                  className="py-1.5 text-center bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-850 dark:hover:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700 font-black text-[10px] rounded-lg tracking-wider uppercase transition-colors"
+                  className="py-1.5 text-center bg-black hover:bg-neutral-100 dark:bg-neutral-850 dark:hover:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700 font-black text-[10px] rounded-lg tracking-wider uppercase transition-colors"
                 >
                   Edit
                 </Link>
                 <Link
                   href={`/pets/${pet._id}`}
-                  className="py-1.5 text-center bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-850 dark:hover:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700 font-black text-[10px] rounded-lg tracking-wider uppercase transition-colors"
+                  className="py-1.5 text-center bg-black hover:bg-neutral-100 dark:bg-neutral-850 dark:hover:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700 font-black text-[10px] rounded-lg tracking-wider uppercase transition-colors"
                 >
                   View
                 </Link>
-                <button
-                  onClick={() => handleDeletePet(pet._id)}
-                  className="col-span-2 py-1.5 bg-rose-500/10 hover:bg-rose-500 text-rose-600 hover:text-white border border-rose-500/20 font-black text-[10px] rounded-lg tracking-wider uppercase transition-colors"
-                >
-                  Delete Listing
-                </button>
+                <div className="col-span-full flex justify-center">
+                  <DeleteModal
+                    petId={pet._id}
+                    petName={pet.petName}
+                    handleDelete={handleDeletePet}
+                  ></DeleteModal>
+                </div>
               </div>
             </div>
           ))}
