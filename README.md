@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Rescume 🐾
 
-## Getting Started
+**A Modern Pet Adoption and Management Platform**
 
-First, run the development server:
+Rescume is a full-stack platform designed to bridge the gap between pet shelters/owners and animal lovers looking to adopt. The application streamlines the listing, discovery, and adoption process, making it easier for pets to find their forever homes.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 🌐 Live URL
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[https://rescume-mu.vercel.app/](https://rescume-mu.vercel.app/)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### ✨ Key Features
 
-## Learn More
+- **Secure Authentication & JWT Protection:** Integrated with **Better Auth** and custom JWT verification middleware to ensure user data and protected routes (like adding pets or viewing requests) are secure.
+- **Dynamic Pet Listings:** Users can create, update, and delete pet listings. Each pet profile includes detailed information such as species, age, and name.
+- **Real-time Adoption Pipeline:** A complete request management system where owners can approve or reject incoming requests. Approving a request automatically marks a pet as "Adopted" and notifies other applicants.
+- **Advanced Filtering & Search:** A fast, responsive search bar and species filtering allow users to find their perfect companion quickly without page reloads.
+- **Responsive Dashboard:** Dedicated views for users to manage their own listed pets and track the status of their adoption applications in a clean, mobile-friendly interface.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🛠️ Tech Stack & NPM Packages Used
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### **Frontend**
 
-## Deploy on Vercel
+- `next`: React framework for production.
+- `better-auth`: Comprehensive authentication library.
+- `tailwind-merge` & `clsx`: For dynamic and stylish CSS management.
+- `framer-motion`: For smooth UI animations and transitions.
+- `lucide-react` / `@gravity-ui/icons`: Modern iconography.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### **Backend**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `express`: Minimalist web framework for Node.js.
+- `mongodb`: Official driver for database connectivity.
+- `jose`: For JWT signing and JWKS verification.
+- `cors`: For managing cross-origin resource sharing between Vercel deployments.
+- `dotenv`: For secure environment variable management.
+
+---
+
+### 🚀 Getting Started
+
+1.  **Clone the repositories** (Frontend and Backend).
+2.  **Install dependencies**: `npm install`.
+3.  **Setup Environment Variables**:
+    - Backend: `DB_USERNAME`, `DB_PASS`, `CLIENT_URI`, `MONGO_URI`.
+    - Frontend: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `CLIENT_URI`.
+4.  **Run Locally**: `npm run dev` (Frontend) and `node index.js` (Backend).
+
+---
+
+### 📄 License
+
+Distributed under the MIT License.
