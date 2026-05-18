@@ -10,7 +10,7 @@ export default function Footer() {
   return (
     <footer className="w-full border-t border-neutral-200/60 dark:border-neutral-900/50 bg-white dark:bg-neutral-950 transition-colors duration-300">
       <div className="mx-auto max-w-7xl px-6 py-12 md:py-16">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 items-start pb-12 border-b border-neutral-200/60 dark:border-neutral-800/60">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 items-start pb-12 border-b border-neutral-200/60 dark:border-neutral-800/60">
           <div className="flex flex-col gap-4">
             <Link
               href="/"
@@ -64,38 +64,6 @@ export default function Footer() {
                 San Francisco, CA 94103
               </p>
             </address>
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
-              Quick Navigation
-            </h4>
-            <ul className="flex flex-col gap-2.5 m-0 p-0 list-none text-xs sm:text-sm font-semibold tracking-wide text-neutral-600 dark:text-neutral-400">
-              <li>
-                <Link
-                  href="/pets?type=cat"
-                  className="hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-200 focus:outline-none"
-                >
-                  Available Cats
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/requests"
-                  className="hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-200 focus:outline-none"
-                >
-                  Adoption Process
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/privacy"
-                  className="hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-200 focus:outline-none"
-                >
-                  Privacy Policy
-                </Link>
-              </li>
-            </ul>
           </div>
         </div>
 
