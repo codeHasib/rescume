@@ -33,16 +33,18 @@ export default async function PetAdoptionPage({ params }) {
       petData = await res.json();
     }
   } catch (err) {
-    console.error(err);
+    console.error("Failed fetching pet details:", err);
   }
 
   if (!petData) {
     return (
       <div className="w-full max-w-xl mx-auto mt-12 p-4 bg-rose-500/5 border border-rose-500/10 text-rose-500 text-xs font-semibold rounded-xl text-center">
-        The requested pet record profile is currently unavailable.
+        The requested pet profile is currently unavailable or does not exist.
       </div>
     );
   }
+
+  const isOwner = sessionContext.user.email === petData.ownerEmail;
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-8 sm:py-12">
@@ -50,6 +52,7 @@ export default async function PetAdoptionPage({ params }) {
         pet={petData}
         user={sessionContext.user}
         authToken={tokenContext?.token}
+        isOwner={isOwner}
       />
     </div>
   );

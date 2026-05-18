@@ -35,7 +35,6 @@ export default function AllPetsClient({ initialPets, isLoggedIn }) {
 
   return (
     <div className="flex flex-col gap-8 w-full animate-fade-in">
-      {/* Search & Category Filter Control Hub */}
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between p-4 bg-neutral-50 dark:bg-neutral-900/40 border border-neutral-200 dark:border-neutral-800 rounded-2xl">
         <input
           type="text"
@@ -61,8 +60,6 @@ export default function AllPetsClient({ initialPets, isLoggedIn }) {
           ))}
         </div>
       </div>
-
-      {/* Grid Execution Layer */}
       {filteredPets.length === 0 ? (
         <div className="w-full py-16 text-center border border-dashed border-neutral-200 dark:border-neutral-800 rounded-3xl">
           <p className="text-xs text-neutral-400 dark:text-neutral-500 font-medium">
@@ -78,8 +75,6 @@ export default function AllPetsClient({ initialPets, isLoggedIn }) {
               className="group relative bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] hover:border-neutral-300 dark:hover:border-neutral-700"
             >
               <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/0 to-emerald-500/[0.01] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-              {/* Card Media Section */}
               <div className="w-full aspect-[4/3] bg-neutral-100 dark:bg-neutral-950 relative overflow-hidden">
                 <Image
                   src={
@@ -96,8 +91,6 @@ export default function AllPetsClient({ initialPets, isLoggedIn }) {
                   {pet.gender}
                 </span>
               </div>
-
-              {/* Metadata Context Frame */}
               <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between gap-4 relative z-10">
                 <div className="flex flex-col min-w-0">
                   <div className="flex items-start justify-between gap-2">
@@ -124,7 +117,6 @@ export default function AllPetsClient({ initialPets, isLoggedIn }) {
                   </div>
                 </div>
 
-                {/* Double Interactive Trigger Rows */}
                 <div className="grid grid-cols-2 gap-2 mt-1">
                   <button
                     onClick={() => handleActionIntercept(`/pets/${pet._id}`)}

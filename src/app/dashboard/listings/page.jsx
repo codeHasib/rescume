@@ -16,47 +16,51 @@ export default async function MyListingsPage() {
     headers: await headers(),
   });
 
+  const token = tokenContext?.token || "";
   let initialPets = [];
+  let allIncomingRequests = [];
   let errorMsg = null;
 
   try {
-    const res = await fetch("https://rescume-backend.vercel.app/pets", {
-      headers: {
-        Authorization: `Bearer ${tokenContext?.token}`,
-        "Content-Type": "application/json",
-      },
-      next: { revalidate: 0 },
-    });
+    const [petsRes, requestsRes] = await Promise.all([
+      fetch("https://rescume-backend.vercel.app/pets", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        next: { revalidate: 0 },
+      }),
+      fetch("http://localhost:5000/incoming-requests", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        next: { revalidate: 0 },
+      }),
+    ]);
 
-    if (res.ok) {
-      const allPets = await res.json();
+    if (petsRes.ok) {
+      const allPets = await petsRes.json();
       initialPets = allPets.filter(
         (pet) => pet.ownerEmail === sessionContext.user.email,
       );
     } else {
       errorMsg = "Failed to load your listings from the server.";
     }
+
+    if (requestsRes.ok) {
+      allIncomingRequests = await requestsRes.json();
+    }
   } catch (err) {
     errorMsg = "An error occurred while connecting to the server.";
   }
 
   return (
-    <div className="flex flex-col gap-6 w-full">
-      <div>
-        <h2 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
-          My Listings
-        </h2>
-        <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1">
-          Manage your published pet profiles, monitor adoptions, and review
-          incoming requests.
-        </p>
-      </div>
-
-      <ListingsClient
-        initialPets={initialPets}
-        authToken={tokenContext?.token}
-        errorMsg={errorMsg}
-      />
-    </div>
+    <ListingsClient
+      initialPets={initialPets}
+      allIncomingRequests={allIncomingRequests}
+      authToken={token}
+      errorMsg={errorMsg}
+    />
   );
 }
