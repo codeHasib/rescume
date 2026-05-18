@@ -5,16 +5,32 @@ import AllPetsClient from "@/components/AllPetsClient";
 export const dynamic = "force-dynamic";
 
 export default async function AllPetsPage() {
-  const sessionContext = await auth.api.getSession({
-    headers: await headers(),
-  });
+  let user = null;
+  let token = "";
 
-  const tokenContext = await auth.api.getToken({
-    headers: await headers(),
-  });
+  try {
+    const requestHeaders = await headers();
 
-  const user = sessionContext?.user || null;
-  const token = tokenContext?.token || "";
+    const sessionContext = await auth.api
+      .getSession({
+        headers: requestHeaders,
+      })
+      .catch(() => null); 
+
+    const tokenContext = await auth.api
+      .getToken({
+        headers: requestHeaders,
+      })
+      .catch(() => null); // Catch rejection safely
+
+    user = sessionContext?.user || null;
+    token = tokenContext?.token || "";
+  } catch (authError) {
+    console.warn(
+      "User context parsed as unauthenticated guest node:",
+      authError.message,
+    );
+  }
 
   let petsData = [];
   let errorMsg = null;
