@@ -164,7 +164,6 @@ export default function AllPetsClient({
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start flex-1 w-full">
-          {/* Filters Sidebar */}
           <div className="lg:col-span-3 flex flex-col gap-6 w-full">
             <div className="p-5 bg-neutral-50 dark:bg-neutral-900/40 border border-neutral-200/60 dark:border-neutral-900 rounded-3xl flex flex-col gap-2">
               <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
@@ -222,7 +221,6 @@ export default function AllPetsClient({
             </div>
           </div>
 
-          {/* Grid Area */}
           <div className="lg:col-span-9 w-full min-h-full flex flex-col">
             {loading ? (
               <div className="w-full py-24 text-center font-black text-xs text-neutral-400 dark:text-neutral-500 uppercase tracking-widest animate-pulse flex-1 flex items-center justify-center">
@@ -250,7 +248,6 @@ export default function AllPetsClient({
                       key={pet._id}
                       className="group bg-neutral-50/50 dark:bg-neutral-900/40 border border-neutral-200/60 dark:border-neutral-900 rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:border-neutral-300 dark:hover:border-neutral-800 h-full"
                     >
-                      {/* Image Frame */}
                       <div className="w-full aspect-[4/3] bg-neutral-100 dark:bg-neutral-950 relative overflow-hidden shrink-0 border-b border-neutral-200/50 dark:border-neutral-900">
                         <Image
                           src={
@@ -271,7 +268,6 @@ export default function AllPetsClient({
                         )}
                       </div>
 
-                      {/* Content Area */}
                       <div className="p-4 flex flex-col flex-1 gap-1">
                         <div className="flex items-start justify-between gap-2">
                           <h2 className="font-black text-sm text-neutral-950 dark:text-neutral-50 truncate tracking-tight">
@@ -294,11 +290,10 @@ export default function AllPetsClient({
                             {pet.location || "Remote"}
                           </span>
                           <span className="shrink-0 font-bold uppercase text-[9px] tracking-wider px-1.5 py-0.5 rounded-md bg-neutral-200/50 dark:bg-neutral-800/60 text-neutral-600 dark:text-neutral-400">
-                            {pet.age || "N/A"}
+                            {`${pet.age} Years` || "N/A"}
                           </span>
                         </div>
 
-                        {/* Dual Actions Stack */}
                         <div className="grid grid-cols-1 gap-2 mt-4 pt-1">
                           <button
                             type="button"
@@ -331,7 +326,6 @@ export default function AllPetsClient({
         </div>
       </div>
 
-      {/* Modal Dialog */}
       {isModalOpen && selectedPetForModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-950/40 backdrop-blur-xs">
           <div
