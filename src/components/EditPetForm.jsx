@@ -35,7 +35,7 @@ export default function EditPetForm({ pet, authToken }) {
     setMessage({ type: "", text: "" });
 
     try {
-      const res = await fetch(`${BASE_API_URL}/${pet._id}`, {
+      const res = await fetch(`${BASE_API_URL}/pets/${pet._id}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${authToken}`,
