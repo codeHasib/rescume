@@ -54,7 +54,7 @@ export default function OwnerReqsModal({
       } else if (typeof setOpen === "function") {
         setOpen(false);
       }
-      redirect("/dashboard/listings");
+      router.push("/dashboard");
     } catch (err) {
       toast.error(err.message);
     } finally {
