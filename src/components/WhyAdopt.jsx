@@ -63,7 +63,7 @@ export default function WhyAdoptCats() {
 
           <div className="pt-2">
             <Link
-              href="/pets?type=cat"
+              href="/pets"
               className="group relative inline-flex items-center gap-2 px-6 py-3 bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 font-black text-[10px] tracking-widest uppercase rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 active:scale-98"
             >
               View Available Cats
