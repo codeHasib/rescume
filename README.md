@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="readme.png" alt="Rescume" width="100%">
+</p>
+
 # Rescume 🐾
 
 **A Modern Pet Adoption and Management Platform**
